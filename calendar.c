@@ -11,22 +11,24 @@
 static struct tm current_time = { 0 };
 uint32_t last_counter;
 bool timer_changed = false;
+TimerCallback main_callback = NULL;
 
-void init_calendar(void) {
-    CMU_ClockEnable(cmuClock_RTCC, true);
+void init_calendar(TimerCallback callback) {
+  main_callback = callback;
+  CMU_ClockEnable(cmuClock_RTCC, true);
 
-    // RTCC initialization structure
-    RTCC_Init_TypeDef init = RTCC_INIT_DEFAULT;
+  // RTCC initialization structure
+  RTCC_Init_TypeDef init = RTCC_INIT_DEFAULT;
 
-    // Set clock source and prescaler
-    init.enable = true;
-    init.debugRun = false;
-    init.presc = rtccCntPresc_32768;
-    init.prescMode = rtccCntTickPresc;
+  // Set clock source and prescaler
+  init.enable = true;
+  init.debugRun = false;
+  init.presc = rtccCntPresc_32768;
+  init.prescMode = rtccCntTickPresc;
 
-    // Initialize the RTCC
-    RTCC_Init( & init);
-    read_time();
+  // Initialize the RTCC
+  RTCC_Init( & init);
+  read_time();
 
 //    RTCC_CCChConf_TypeDef compare = RTCC_CH_INIT_COMPARE_DEFAULT;
 //    compare.compMatchOutAction = rtccCompMatchOutActionPulse;
@@ -53,6 +55,9 @@ void calendar_driver(void) {
       update_calendar(diff);
       last_counter = counter;
       timer_changed = true;
+      if (main_callback) {
+          main_callback();
+      }
   }
 }
 
@@ -63,11 +68,9 @@ char* get_time(void) {
 }
 
 void print_time(void) {
-  if (timer_changed) {
-    char isoTime[21];
-    strftime(isoTime, sizeof(isoTime), "%Y-%m-%d %H:%M:%S", &current_time);
-    print_content(isoTime, 11);
-  }
+  char isoTime[21];
+  strftime(isoTime, sizeof(isoTime), "%Y-%m-%d %H:%M:%S", &current_time);
+  print_content(isoTime, 11);
 }
 
 void update_calendar(int seconds) {

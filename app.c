@@ -51,7 +51,7 @@ SL_WEAK void app_init(void)
   /////////////////////////////////////////////////////////////////////////////
   memlcd_init();
   print_content("Application", 0);
-  init_calendar();
+  init_calendar(timer_callback);
   init_device_menu();
   app_button_press_init();
   app_button_press_enable();
@@ -68,8 +68,6 @@ SL_WEAK void app_process_action(void)
   // Do not call blocking functions from here!                               //
   /////////////////////////////////////////////////////////////////////////////
   calendar_driver();
-  print_time();
-  menu_driver();
   app_button_press_step();
 }
 
@@ -173,4 +171,9 @@ void app_button_press_cb(uint8_t button, uint8_t duration) {
     }
 
     print_content(data, 4);
+}
+
+void timer_callback(void) {
+  print_time();
+  menu_driver();
 }

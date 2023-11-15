@@ -15,7 +15,9 @@
 #include "em_rtcc.h"
 #include "em_cmu.h"
 
-void init_calendar(void);
+typedef void (*TimerCallback)(void);
+
+void init_calendar(TimerCallback callback);
 void calendar_driver(void);
 char* get_time(void);
 void print_time(void);
