@@ -49,7 +49,7 @@ fi
 PATH_GBL="${PATH_PROJ}/output_gbl"
 
 # out file path 
-PATH_OUT=`find ${PATH_PROJ} -type f \( -iname ${FILE_EXTENSION_GCC} -or -iname ${FILE_EXTENSION_IAR} \) -exec echo {} \;`
+PATH_OUT=`find ${PATH_PROJ} -type f \( -iname ${FILE_EXTENSION_GCC} \) -exec echo {} \;`
 
 if [[ -z ${PATH_OUT} ]]; then
   echo "Error: neither ${FILE_EXTENSION_GCC} nor ${FILE_EXTENSION_IAR} found"
