@@ -21,6 +21,12 @@
   simple checkout before building the application
 - Make sure there is no change while running `git status`
 
+## Encryption
+
+- Please follow the steps on
+  this [link](https://docs.google.com/document/d/e/2PACX-1vSkBsG3XW9xr0IZVzBdmnR0m8gTEB9qVS0qDthxc1zbp6hWhlp9lvW1a5EKpq2Ue-n_SGRzB3B0Tp78/pub)
+  to enable encrypted OTA updates
+
 ## Simplicity Studio Fix
 
 If Simplicity studio fails to start (on MacOs) use the following command to fix it:
